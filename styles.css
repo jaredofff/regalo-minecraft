@@ -826,6 +826,13 @@ html {
     gap: 10px;
   }
 
+  .worlds-grid-simple {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+
   .world-card {
     width: 90vw;
     max-width: 350px;
@@ -887,8 +894,19 @@ html {
     height: 50px;
   }
 
+  .worlds-grid-simple {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0;
+    overflow-y: auto;
+    height: auto;
+    max-height: 80vh;
+  }
+
   .world-card {
-    width: 95vw;
+    width: 90vw;
+    flex-shrink: 0;
   }
 
   .world-image {
@@ -903,12 +921,38 @@ html {
     font-size: 1rem;
   }
 
+  /* Ajuste de la Carta de Regalo Sorpresa */
+  .gift-container {
+    padding: 15px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .inventory-card {
+    width: 95vw;
+    padding: 15px;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
   .gift-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
   }
 
   .gift-content p {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+  }
+
+  .gift-content strong {
+    font-size: 1.1rem;
+  }
+
+  .jukebox-player {
+    padding: 10px;
+    width: 95vw;
   }
 
   .mojang-logo img {
