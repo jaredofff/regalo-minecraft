@@ -811,60 +811,117 @@ html {
 /* Para Tablets en formato Vertical o Pantallas Pequeñas (max 768px) */
 @media screen and (max-width: 768px) {
   .logo-image {
-    width: 85vw; /* Logo un poco más contenido */
-    max-width: 500px;
+    width: 80vw;
+    max-width: 450px;
   }
 
   .splash-text {
-    font-size: 20px; /* Reducimos la fuente del Splash */
-    top: 60%;
-    right: -2%;
+    font-size: 18px;
+    top: 65%;
+    right: 2%;
   }
 
   .button-container {
-    width: 280px; /* Acortamos ligeramente los botones */
-    gap: 12px;
+    width: 260px;
+    gap: 10px;
   }
 
-  .minecraft-btn {
-    font-size: 1.3rem; /* Letra un tanto más delgada */
-    padding: 10px 0;
+  .world-card {
+    width: 90vw;
+    max-width: 350px;
+  }
+
+  .player-profile {
+    right: 20px;
+    bottom: 20px;
+    transform: scale(0.8);
+  }
+
+  .inventory-card {
+    padding: 20px;
+    margin: 10px;
   }
 }
 
 /* Para Teléfonos / iPhones (max 480px) */
 @media screen and (max-width: 480px) {
   .menu-container {
-    gap: 2rem; /* Acercamos el menú al logo para que quepa bien en vertical */
+    gap: 1.5rem;
+    justify-content: flex-start;
+    padding-top: 10vh;
   }
 
   .logo-image {
-    width: 95vw; /* Que el logo llene el ancho, es lo más importante */
+    width: 90vw;
   }
 
   .splash-text {
-    font-size: 16px; /* Texto amarillo más chiquito para no salirse */
-    top: 55%;
-    right: 0%; /* Meterlo hacia adentro para evitar desbordes */
+    font-size: 14px;
+    top: 70%;
+    right: 5%;
   }
 
   .button-container {
-    width: 90vw; /* Botones más anchos que ocupen la pantalla móvil */
-    max-width: 320px;
+    width: 85vw;
+  }
+
+  /* El perfil del jugador se mueve arriba para no tapar botones en móvil vertical */
+  .player-profile {
+    top: 10px;
+    right: 10px;
+    bottom: auto;
+    transform: scale(0.7);
+    flex-direction: row;
     gap: 10px;
+    background-color: rgba(0,0,0,0.5);
+    padding: 5px;
   }
 
-  .minecraft-btn {
-    font-size: 1.2rem;
-    padding: 8px 0;
+  .player-name {
+    margin-top: 0;
+    font-size: 0.7rem;
   }
 
-  .settings-panel {
-    padding: 20px; /* Panel de ajustes más comprimido en teléfono */
+  .player-skin {
+    width: 50px;
+    height: 50px;
   }
 
-  /* La pantalla de carga se achica un poco */
+  .world-card {
+    width: 95vw;
+  }
+
+  .world-image {
+    height: 120px;
+  }
+
+  .world-info {
+    height: 70px;
+  }
+
+  .world-name {
+    font-size: 1rem;
+  }
+
+  .gift-title {
+    font-size: 1.8rem;
+  }
+
+  .gift-content p {
+    font-size: 1rem;
+  }
+
   .mojang-logo img {
-    width: 300px;
+    width: 250px;
+  }
+
+  /* Ajuste de modales en móvil */
+  .bedrock-modal {
+    width: 90vw;
+    padding: 20px;
+  }
+
+  .progress-bar-container {
+    width: 100%;
   }
 }
