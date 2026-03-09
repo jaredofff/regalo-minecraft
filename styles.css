@@ -243,17 +243,19 @@ html {
   z-index: 10000;
 }
 
-/* Panel de ajustes y otros menús secundarios */
+/* Panel de ajustes y otros menús secundarios con scroll habilitado */
 #settings-menu, #play-menu {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Cambio a flex-start para scroll natural */
+  padding: 40px 10px;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.7);
-  overflow: hidden;
+  overflow-y: auto; /* IMPORTANTE: Permitir scroll si el contenido es alto */
+  -webkit-overflow-scrolling: touch;
 }
 
 .settings-panel {
@@ -1019,7 +1021,67 @@ html {
     padding: 20px;
   }
 
-  .progress-bar-container {
-    width: 100%;
+  /* Pantalla de carga mojang más pequeña en vertical telefónica */
+  .mojang-logo {
+    transform: scale(0.6);
+  }
+}
+
+/* ======================================================== */
+/* MODO HORIZONTAL (LANDSCAPE) - Fix para logos y botones  */
+/* ======================================================== */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .menu-container {
+    gap: 1rem;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .logo-container {
+    margin-bottom: 0.5rem;
+    transform: scale(0.8);
+  }
+
+  .logo-image {
+    max-width: 400px;
+  }
+
+  .splash-text {
+    font-size: 14px;
+    top: 60%;
+    right: 5%;
+  }
+
+  .button-container {
+    flex-direction: row; /* Botones en fila para ahorrar espacio vertical */
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90vw;
+    gap: 10px;
+  }
+
+  .minecraft-btn {
+    width: 180px;
+    font-size: 1rem;
+    padding: 6px 0;
+  }
+
+  .player-profile {
+    bottom: 5px;
+    right: 5px;
+    transform: scale(0.6);
+  }
+
+  /* El menú de mundos en horizontal */
+  .worlds-grid-simple {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+    max-height: none;
+  }
+
+  .world-card {
+    width: 250px;
   }
 }
