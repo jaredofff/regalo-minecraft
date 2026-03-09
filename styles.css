@@ -909,19 +909,21 @@ html {
 /* Para Teléfonos / iPhones (max 480px) */
 @media screen and (max-width: 480px) {
   .menu-container {
-    gap: 1.5rem;
+    gap: 1rem;
     justify-content: flex-start;
-    padding-top: 10vh;
+    padding-top: 5vh; /* Menos espacio arriba para que el logo no baje tanto */
   }
 
   .logo-image {
-    width: 90vw;
+    width: 80vw; /* Un poco más pequeño para asegurar que entre completo */
+    max-width: 320px;
   }
 
   .splash-text {
-    font-size: 14px;
+    font-size: clamp(12px, 3.5vw, 16px);
     top: 70%;
-    right: 5%;
+    right: 0%; /* Centrado más hacia la derecha interna del logo */
+    transform: rotate(-15deg) translateX(0);
   }
 
   .button-container {
