@@ -1,0 +1,870 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans", "Segoe UI", Arial, sans-serif; /* Fuente limpia, moderna y HD que usa el nuevo Bedrock */
+  user-select: none;
+  -webkit-font-smoothing: antialiased; /* Hace que el texto sea nítido en HD */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000; /* Fondo negro base */
+}
+
+/* Efecto de fondo panorámico con movimiento automático (Clásico de Minecraft) */
+.panorama-background {
+  position: absolute;
+  top: -5vh;
+  left: 0;
+  width: 140vw; /* Más ancho para el deslizamiento suave */
+  height: 110vh;
+  background-image: url("7BjxfxL.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px) brightness(0.8);
+  z-index: 1;
+  animation: panBackground 40s infinite alternate ease-in-out; /* Movimiento automático suave */
+}
+
+@keyframes panBackground {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-40vw); }
+}
+
+@keyframes enchantmentGlint {
+  0% { transform: translate(-20%, -20%) rotate(0deg); }
+  100% { transform: translate(20%, 20%) rotate(0deg); }
+}
+
+@keyframes panBackground {
+  0% {
+    transform: translateX(0); /* Empieza mostrando el lado izquierdo */
+  }
+  100% {
+    transform: translateX(-30vw); /* Desliza revelando el lado derecho sobrante */
+  }
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 3rem;
+  position: relative; /* Agregado para usar z-index */
+  z-index: 10; /* Asegurar que los botones estén por encima del fondo */
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+/* La imagen de tu logo personalizado */
+.logo-image {
+  width: 90vw;
+  max-width: 700px; /* Tamaño máximo para ordenadores */
+  position: relative;
+  z-index: 2;
+  /* El drop-shadow simula la sombra trasera enorme del logo */
+  filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.6));
+}
+
+/* El clásico texto amarillo rotado que rebota en el menú */
+.splash-text {
+  position: absolute;
+  top: 65%; /* Usamos porcentajes para asegurar que siempre esté a esa altura relativa al logo */
+  right: -5%; /* Salido un poquito del lado derecho de la imagen */
+  color: #ffff00; /* Amarillo puro */
+  font-family: inherit; /* Usar la misma fuente de pixels de todo el juego */
+  font-size: 26px;
+  text-shadow: 2px 2px 0px #3f3f00; /* Sombra oscura amarilla */
+  transform: rotate(-15deg);
+  animation: splashBounce 0.4s infinite alternate; /* Animación de latido */
+  z-index: 50;
+  white-space: nowrap; /* Que no se parta en dos lineas */
+}
+
+@keyframes splashBounce {
+  from {
+    transform: rotate(-15deg) scale(1);
+  }
+  to {
+    transform: rotate(-15deg) scale(1.1);
+  }
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 320px;
+}
+
+/* Estilo que asimila el botón de Bedrock/Legacy moderno */
+.minecraft-btn {
+  appearance: none;
+  background-color: #d8d8d8;
+  border: 1px solid #1e1e1e; /* El borde fino negro clásico de la UI nueva */
+  color: #1e1e1e;
+  font-size: 1.2rem; /* Achicamos ligeramente al ser una fuente más robusta y legible */
+  font-weight: 700; /* Texto en negrita, estilo botón oficial */
+  padding: 12px 0;
+  text-transform: none; /* Bedrock no usa mayúsculas para todo */
+  cursor: pointer;
+  box-shadow: inset 0px -3px 0px 0px rgba(0, 0, 0, 0.2); /* Sombreado interno sutil */
+  transition: all 0.1s;
+  outline: none;
+  position: relative;
+}
+
+.minecraft-btn::before {
+  /* Borde interno blanco */
+  content: "";
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+.minecraft-btn:hover {
+  background-color: #58a558; /* Verde sutil en el hover que tiene esa interfaz */
+  color: white;
+  box-shadow: inset 0px -3px 0px 0px rgba(0, 0, 0, 0.3);
+}
+
+.minecraft-btn:hover::before {
+  /* Cuando es verde, el borde interior también cambia */
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.minecraft-btn:active {
+  background-color: #4b8b4b; /* Más oscuro al presionar */
+  box-shadow: inset 0px 3px 0px 0px rgba(0, 0, 0, 0.4); /* Sombra hacia adentro al presionar */
+  transform: translateY(2px); /* Pequeño empuje hacia abajo */
+}
+
+/* Pantalla de Carga */
+#loading-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ef323d; /* Rojo clásico de Mojang Studios */
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease-out; /* Transición suave para desvanecerse */
+}
+
+/* El sutil gradiente oscuro en la parte inferior, típico de la carga en Bedrock */
+#loading-screen::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
+  pointer-events: none; /* Que los clicks pasen a través del gradiente */
+}
+
+.mojang-logo {
+  z-index: 10000;
+}
+
+.mojang-logo img {
+  width: 500px; /* Tamaño del logo de Mojang en la pantalla */
+  max-width: 80vw;
+}
+
+.loading-text {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  color: white;
+  font-family: "Segoe UI", Arial, sans-serif; /* Fuente limpia similar a Bedrock para este texto */
+  font-size: 16px;
+  z-index: 10000;
+}
+
+/* Panel translúcido para los menús secundarios */
+.settings-panel {
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente oscuro */
+  padding: 30px 40px;
+  border: 2px solid rgba(255, 255, 255, 0.2); /* Borde claro ligero */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Sombra hacia fuera pesada */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ========================================= */
+/* PANTALLA DE JUGAR (Simplificada)          */
+/* ========================================= */
+.play-content-simple {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.worlds-grid-simple {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.world-card {
+  width: 400px;
+  background-color: #313233;
+  border: 4px solid #1e1e1e;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.8);
+  transition: transform 0.2s;
+}
+
+.world-card:hover {
+  border-color: #ffffff;
+  transform: scale(1.02);
+}
+
+.world-image {
+  height: 200px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 2px solid #1e1e1e;
+}
+
+.world-info {
+  display: flex;
+  height: 90px;
+  background-color: #4a4b4c;
+}
+
+.world-texts {
+  flex: 1;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid #1e1e1e;
+}
+
+.world-mode {
+  color: #3e8e41; /* Verde supervivencia */
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.world-name {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.world-date {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.world-edit-btn {
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: white;
+  background-color: #5a5a5a;
+}
+.world-edit-btn:hover { background-color: #7a7a7a; }
+
+/* ========================================= */
+/* PERFIL DE JUGADOR (REDiseño DEFinitivo) */
+/* ========================================= */
+.player-profile {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50;
+  pointer-events: none; /* Que no estorbe los clicks */
+}
+
+/* El gorrito ahora es un elemento separado en el flujo */
+.steve-hat {
+  font-size: 3.5rem;
+  margin-bottom: -15px; /* Un poquito metido para que parezca puesto */
+  z-index: 60;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.5));
+}
+
+/* El marco de la skin */
+.player-skin {
+  width: 80px;
+  height: 80px;
+  background-color: #313131;
+  border: 4px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+  overflow: hidden; /* Importante para el glint */
+  position: relative;
+}
+
+/* Capa de encantamiento */
+.player-skin::after {
+  content: "";
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(200, 100, 255, 0.4) 50%,
+    transparent 60%
+  );
+  animation: enchantmentGlint 4s infinite linear;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.player-skin::before {
+    content: "";
+    position: absolute;
+    top: 2px; left: 2px; right: 2px; bottom: 2px;
+    border: 2px solid rgba(255,255,255,0.1);
+    pointer-events: none;
+}
+
+.player-skin img {
+  width: 85%;
+  height: 85%;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+/* El nombre estilo etiqueta de Bedrock ENcantado */
+.player-name {
+  margin-top: 10px;
+  background-color: rgba(40, 10, 60, 0.7); /* Tinte morado */
+  color: #d2a4ff; /* Texto lila */
+  padding: 3px 10px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border: 2px solid #8e2de2; /* Borde morado encantado */
+  text-shadow: 0 0 5px #8e2de2;
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.player-name::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: barShimmer 2.5s infinite;
+}
+/* ========================================= */
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #1e1e1e; /* Negro carbón de Minecraft */
+  cursor: pointer;
+  padding: 10px;
+  text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.2); /* Brillo muy sutil para que no se pierda si el fondo es muy oscuro */
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.7;
+}
+
+.icon-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ========================================= */
+/* PANTALLA DE CARGA (TERRENO) */
+/* ========================================= */
+#world-loading-screen {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: #3f3f3f; /* Gris base */
+  z-index: 50000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Patrón de carga personalizado con la imagen del usuario */
+.custom-loading-bg {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("Imagenes/inicio.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* La oscurecemos muy sutilmente para que la barra verde y las letras resalten bien encima de ella */
+  filter: brightness(0.6);
+  z-index: -1;
+}
+
+.bedrock-modal {
+  background-color: #313233; /* El color gris oscuro característico del nuevo UI de Bedrock */
+  border: 2px solid #1e1e1e;
+  border-top-color: #555;
+  border-left-color: #555;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  box-shadow: 10px 10px 20px rgba(0,0,0,0.6);
+  z-index: 2;
+}
+
+.loading-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.progress-bar-container {
+  width: 350px;
+  height: 25px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid #555;
+  border-top-color: #222;
+  border-left-color: #222;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background-color: #3e8e41; /* Verde esmeralda tipo carga */
+  box-shadow: inset 0px 3px 0px rgba(255, 255, 255, 0.3);
+  transition: width 0.2s linear;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo (shimmer) en la barra de carga */
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: barShimmer 2s infinite;
+}
+
+@keyframes barShimmer {
+  to { left: 100%; }
+}
+
+.loading-tip {
+  position: absolute;
+  bottom: 10%;
+  color: white;
+  font-size: 1.2rem;
+  text-shadow: 2px 2px 0px #000;
+  text-align: center;
+  width: 90%;
+  font-weight: 700;
+}
+
+/* ========================================= */
+/* MODAL PERSONALIZADO (ALERTA MC)          */
+/* ========================================= */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-title {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.modal-body {
+  color: #ccc;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Forzamos el ancho del botón en el modal para que no se deforme */
+#minecraft-modal .minecraft-btn {
+  width: 200px;
+}
+
+/* ========================================= */
+/* LLUVIA DE GORRITOS DE FIESTA              */
+/* ========================================= */
+#party-rain-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Para que no bloquee los clicks en la carta */
+  overflow: hidden;
+  z-index: 100;
+}
+
+.party-hat {
+  position: absolute;
+  top: -50px;
+  font-size: 2rem;
+  user-select: none;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+
+/* Diferentes estilos de gorritos (usando emojis o formas simples) */
+.hat-1::after { content: '🥳'; }
+.hat-2::after { content: '🎉'; }
+.hat-3::after { content: '🎁'; }
+.hat-4::after { content: '🎂'; }
+
+/* ========================================= */
+/* PANTALLA DEL COFRE MÍSTICO               */
+/* ========================================= */
+#chest-screen {
+  position: absolute;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+}
+
+.chest-container-inner {
+  position: relative;
+  text-align: center;
+}
+
+#minecraft-chest {
+  animation: floatChest 3s infinite ease-in-out;
+}
+
+@keyframes floatChest {
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 20px #ffaa00); }
+  50% { transform: translateY(-20px); filter: drop-shadow(0 0 40px #ffdd00); }
+}
+
+.chest-emoji {
+  font-size: 8rem;
+  cursor: pointer;
+  transition: transform 0.1s;
+  user-select: none;
+}
+
+.chest-emoji:active {
+  transform: scale(0.9);
+}
+
+#mystic-light {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,170,0,0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulseLight 2s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes pulseLight {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
+}
+
+/* ========================================= */
+/* SISTEMA DE PARTÍCULAS AMBIENTALES         */
+/* ========================================= */
+#ambient-particles {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 2; /* Justo encima del fondo */
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6); /* Un poco más visibles */
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+}
+
+/* ========================================= */
+/* NOTIFICACIÓN DE LOGRO (OPCIÓN 2)          */
+/* ========================================= */
+.achievement-container {
+  position: absolute;
+  top: 20px;
+  right: -350px; /* Escondido al inicio */
+  width: 320px;
+  height: 80px;
+  background-color: #212121;
+  border: 4px solid #000;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  z-index: 1000;
+  transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.achievement-container.show {
+  right: 20px;
+}
+
+.achievement-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #313131;
+  border: 2px solid #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin-right: 15px;
+}
+
+.achievement-texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.achievement-title {
+  color: #ffaa00; /* Amarillo/Naranja de logro */
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.achievement-name {
+  color: white;
+  font-size: 1rem;
+}
+
+/* ========================================= */
+/* PESTAÑA DEL REGALO INTERACTIVO (Ajustes)  */
+#gift-screen {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  /* Fondo borroso tipo Nether/Cueva distinto o solo oscurecido */
+  background-color: rgba(0, 0, 0, 0.85); 
+  z-index: 40000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.gift-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 40px;
+  max-width: 90vw;
+}
+
+/* Interfaz que asimila el inventario / libro */
+.inventory-card {
+  background-color: #c6c6c6;
+  border: 4px solid #1e1e1e;
+  border-right-color: #555;
+  border-bottom-color: #555;
+  padding: 30px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: inset -4px -4px 0px rgba(0,0,0,0.1), 10px 10px 20px rgba(0,0,0,0.6);
+  color: #1e1e1e;
+}
+
+.gift-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.gift-content {
+  font-family: "Noto Sans", sans-serif;
+}
+
+.gift-content p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.gift-content strong {
+  font-size: 1.4rem;
+  color: #000;
+  display: block;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Sistema musical */
+.jukebox-player {
+  background-color: #634b33; /* Color madera / Jukebox */
+  border: 4px solid #3d2a1a;
+  padding: 20px;
+  border-radius: 8px;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.disc-animation {
+  font-size: 3rem;
+  margin: 10px 0;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.spin {
+  animation: rotateDisc 2s infinite linear;
+}
+
+@keyframes rotateDisc {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.jukebox-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+/* Botones chiquitos para la rocola */
+.minecraft-btn.mini-btn {
+  font-size: 1rem;
+  padding: 5px 15px;
+}
+
+/* ======================================================== */
+/* MEDIA QUERIES PARA RESPONSIVE DESIGN (IPAD, IPHONE, ETC) */
+/* ======================================================== */
+
+/* Para Tablets en formato Vertical o Pantallas Pequeñas (max 768px) */
+@media screen and (max-width: 768px) {
+  .logo-image {
+    width: 85vw; /* Logo un poco más contenido */
+    max-width: 500px;
+  }
+
+  .splash-text {
+    font-size: 20px; /* Reducimos la fuente del Splash */
+    top: 60%;
+    right: -2%;
+  }
+
+  .button-container {
+    width: 280px; /* Acortamos ligeramente los botones */
+    gap: 12px;
+  }
+
+  .minecraft-btn {
+    font-size: 1.3rem; /* Letra un tanto más delgada */
+    padding: 10px 0;
+  }
+}
+
+/* Para Teléfonos / iPhones (max 480px) */
+@media screen and (max-width: 480px) {
+  .menu-container {
+    gap: 2rem; /* Acercamos el menú al logo para que quepa bien en vertical */
+  }
+
+  .logo-image {
+    width: 95vw; /* Que el logo llene el ancho, es lo más importante */
+  }
+
+  .splash-text {
+    font-size: 16px; /* Texto amarillo más chiquito para no salirse */
+    top: 55%;
+    right: 0%; /* Meterlo hacia adentro para evitar desbordes */
+  }
+
+  .button-container {
+    width: 90vw; /* Botones más anchos que ocupen la pantalla móvil */
+    max-width: 320px;
+    gap: 10px;
+  }
+
+  .minecraft-btn {
+    font-size: 1.2rem;
+    padding: 8px 0;
+  }
+
+  .settings-panel {
+    padding: 20px; /* Panel de ajustes más comprimido en teléfono */
+  }
+
+  /* La pantalla de carga se achica un poco */
+  .mojang-logo img {
+    width: 300px;
+  }
+}

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minecraft Bedrock Menu</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Pantalla de Carga de Mojang -->
+    <div id="loading-screen">
+        <div class="mojang-logo" style="display: flex; flex-direction: column; align-items: center;">
+            <div style="font-family: 'Arial Black', sans-serif; font-size: 90px; color: white; letter-spacing: 5px; font-weight: 900; margin-bottom: -15px; margin-left: 5px;">MOJANG</div>
+            <div style="font-family: Arial, sans-serif; font-size: 25px; color: white; letter-spacing: 16px; font-weight: bold; margin-left: 16px;">STUDIOS</div>
+        </div>
+        <div class="loading-text">
+            <span id="loading-message">Iniciando el juego...</span>
+        </div>
+    </div>
+
+    <div class="panorama-background">
+      <div id="ambient-particles"></div>
+    </div>
+
+    <div class="menu-container" id="main-menu">
+      <!-- Logo de Minecraft con el Subtítulo usando tu Imagen Personalizada -->
+      <div class="logo-container" id="logo-click" style="cursor: pointer;">
+        <img src="Imagenes/minecraft_title.png" alt="Minecraft Logo" class="logo-image">
+        <div class="splash-text" id="dynamic-splash">¡Feliz Cumpleaños!</div>
+      </div>
+
+      <!-- Botones Estilo Bedrock -->
+      <div class="button-container">
+        <button class="minecraft-btn" id="btn-jugar">Jugar</button>
+        <button class="minecraft-btn" id="btn-ajustes">Ajustes</button>
+        <button class="minecraft-btn">Mercado</button>
+        <button class="minecraft-btn">Salir</button>
+      </div>
+
+      <!-- Perfil de Jugador a la derecha -->
+      <div class="player-profile">
+        <div class="player-skin">
+          <img src="Imagenes/skin.png" alt="Skin" id="player-img">
+        </div>
+        <div class="player-name">Invitada Especial</div>
+      </div>
+    </div>
+
+    <!-- Menú Dinámico de Ajustes -->
+    <div class="menu-container" id="settings-menu" style="display: none;">
+      <!-- Título de submenú un poco más pequeño -->
+      <h1 class="minecraft-title" style="font-size: 4rem; border-bottom: none; text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);">AJUSTES</h1>
+      
+      <!-- Fondo oscuro translúcido típico de los menús de Bedrock -->
+      <div class="settings-panel">
+        <div class="button-container">
+          <button class="minecraft-btn">Video</button>
+          <button class="minecraft-btn">Audio</button>
+          <button class="minecraft-btn">Controles</button>
+          <button class="minecraft-btn" style="margin-top: 20px;" id="btn-atras">Atrás</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menú de Jugar (Selección de Mundos estilo Bedrock) -->
+    <!-- Menú de Jugar (Simplificado) -->
+    <div class="menu-container" id="play-menu" style="display: none; align-items: center; justify-content: center; width: 100vw; height: 100vh; max-width: none; background-color: rgba(0,0,0,0.7); z-index: 10;">
+      
+      <!-- Botón de atrás sutil en la esquina -->
+      <button class="icon-btn" id="btn-atras-play" style="position: absolute; top: 20px; left: 20px;">◄</button>
+
+      <!-- Área de Contenido: Solo el Mundo -->
+      <div class="play-content-simple">
+        <div class="worlds-grid-simple">
+          <!-- Mundo Falso 1 -->
+          <div class="world-card fake-world">
+            <div class="world-image" style="background-image: url('Imagenes/eC3yiSD.jpg');"></div>
+            <div class="world-info">
+              <div class="world-texts">
+                <span class="world-mode" style="color: #aaa;">Supervivencia</span>
+                <span class="world-name">Mundo Abandonado</span>
+                <span class="world-date">Hace 2 años</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mundo 1: EL REAL -->
+          <div class="world-card" id="btn-entrar-regalo">
+            <div class="world-image" style="background-image: url('Imagenes/inicio.png');"></div>
+            <div class="world-info">
+              <div class="world-texts">
+                <span class="world-mode">Supervivencia</span>
+                <span class="world-name">¡SORPRESA AQUÍ! 🎁</span>
+                <span class="world-date">Hoy</span>
+              </div>
+              <div class="world-edit-btn">✎</div>
+            </div>
+          </div>
+
+          <!-- Mundo Falso 2 -->
+          <div class="world-card fake-world">
+            <div class="world-image" style="background-image: url('Imagenes/image.jpg');"></div>
+            <div class="world-info">
+              <div class="world-texts">
+                <span class="world-mode" style="color: #c44;">Extremo</span>
+                <span class="world-name">Prohibido Entrar</span>
+                <span class="world-date">Ayer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pantalla de Generación de Terreno (Oculta) -->
+    <div id="world-loading-screen" style="display: none;">
+      <div class="custom-loading-bg"></div>
+      
+      <!-- Panel de carga centrado estilo Bedrock moderno -->
+      <div class="bedrock-modal">
+        <h2 class="loading-title">Generando terreno...</h2>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="world-progress"></div>
+        </div>
+      </div>
+
+      <!-- Texto de consejo en la parte inferior -->
+      <div class="loading-tip" id="loading-tip">Consejo: ¡Cuidado con los creepers!</div>
+    </div>
+
+    <!-- Pantalla del Cofre Interactiva (NUEVO) -->
+    <div id="chest-screen" style="display: none;">
+      <div class="chest-container-inner">
+        <div id="mystic-light"></div>
+        <div id="minecraft-chest" class="chest-closed">
+          <!-- El cofre será un Emoji gigante o un div estilizado -->
+          <div class="chest-emoji">🧰</div> 
+          <p id="chest-instruction">HAY ALGO DENTRO... <br><span>(Haz clic para abrir)</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pantalla del Regalo / Tarjeta y Música (Oculta) -->
+    <div id="gift-screen" style="display: none;">
+      <div id="party-rain-container"></div>
+      
+      <!-- Notificación de Logro Estilo Minecraft -->
+      <div id="achievement-toast" class="achievement-container">
+        <div class="achievement-icon">🎂</div>
+        <div class="achievement-texts">
+          <span class="achievement-title">¡Logro obtenido!</span>
+          <span class="achievement-name">Un Año Más Sabio</span>
+        </div>
+      </div>
+
+      <div class="gift-container">
+        <!-- Tarjeta de Cumpleaños Estilo Libro de Minecraft -->
+        <div class="inventory-card">
+          <h2 class="gift-title">¡LOGRO DESBLOQUEADO! 🏆</h2>
+          <div class="gift-content" id="final-message">
+            <p style="text-align: center; font-style: italic; color: #555; margin-bottom: 30px;">"Has subido de nivel en el servidor de la vida..."</p>
+            <p><strong>¡Feliz Cumpleaños!</strong></p>
+            <p>Hoy tu inventario se llena de bendiciones, diamantes y muchos pasteles. Has desbloqueado un nuevo año lleno de aventuras, biomas por explorar y muchas construcciones épicas por realizar.</p>
+            <p>¡Que este nuevo nivel sea el mejor de todos y que tu barra de experiencia nunca deje de subir!</p>
+          </div>
+        </div>
+        
+        <button class="minecraft-btn" id="btn-volver-menu" style="margin-top: 20px;">Volver al Menú</button>
+      </div>
+    </div>
+
+    <!-- Cuadro de Diálogo Personalizado (Estilo Minecraft) -->
+    <div id="minecraft-modal" class="modal-overlay" style="display: none;">
+      <div class="bedrock-modal">
+        <h2 class="modal-title" id="modal-title">¡Mundo Corrupto!</h2>
+        <p class="modal-body" id="modal-body">Mensaje aquí...</p>
+        <button class="minecraft-btn" id="btn-modal-ok">OK</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
